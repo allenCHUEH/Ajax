@@ -1,0 +1,34 @@
+﻿@model ContactViewModel
+
+@section styles{
+
+}
+
+<form asp-controller="Home" asp-action="Contact" method="post">
+    <div class="container">
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">@Html.DisplayNameFor(model =>model.Name)</label>
+            <input asp-for="Name" type="text" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="form-label">@Html.DisplayNameFor(model => model.Email)</label>
+            <input asp-for="Email" type="text" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone" class="form-label">@Html.DisplayNameFor(model => model.Phone)</label>
+            <input asp-for="Phone" type="text" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-paper-plane-top"></i>提交</button>
+        </div>
+    </div>
+</form></>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

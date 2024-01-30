@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@inject NorthwindContext DataContext
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <cache expires-after="@TimeSpan.FromMinutes(1)">@DateTime.Now</cache> @*因為快取的關係，快取讀取間格之間不會發現任何變化*@
+    <img src="~/image/dog.jpg" /> @* 直接從方案總管拉進來 *@
+    <img src="~/image/dog.jpg" asp-append-version="true" />  @*加上asp-append-version="true"附於其版本屬性，這樣就不會因為快取而不會馬上更新*@
+    <cache expires-after="@TimeSpan.FromMinutes(1)">客戶總數:@DataContext.Customers.Count()</cache>
+    @* <h5>客戶總數:@DataContext.Customers.Count()</h5> *@
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@section Scripts {
+    
+}

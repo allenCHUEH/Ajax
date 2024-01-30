@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "First";
+}
+
+<h1>Ajax Demo</h1>
+<input type="button" class="btn btn-primary mb-3" value="Ajas開始" id="buttonStart" />
+<input type="button" class="btn btn-primary mb-3" value="Ajax 停止" id="buttonStop" />
+<img src="~/22.gif" id="imgloading" style="display:none" />
+<div id="info" class="alert alert-info"></div>
+
+@section Scripts {
+    <script>
+        const btnStart = document.querySelector('#buttonStart');
+        const btnStop = document.querySelector('#buttonStop');
+        const divinfo = document.querySelector('#info');
+        const imgLoader = document.querySelector('#imgloading');
+        let abortController;
+        btnStop.addEventListener('click', ()=> {
+            if (abortController) {
+                abortController.abort();
+            }
+        })
+
+        btnStart.addEventListener('click', async () => {
+            try {
+                imgLoader.style.display = "inline"
+                btnStart.setAttribute("disabled", "disabled")
+
+                abortController = new AbortController();
+                const signal = abortController.signal;
+
+                //5秒鐘沒有回傳結果就停止程式的執行
+                setTimeout(() => {
+                    abortController.abort();
+                }, 5000)
+
+                 // fetch('index')
+                const response = await fetch("@Url.Content("~/msit/index")", { signal });
+                if (!response.ok) { 
+                    throw new Error('狀態碼:' + response.status); 
+                }
+                const data = await response.text();
+                console.log(data);
+                divinfo.innerHTML = `<h3>${data}</h3>`
+            } catch (error) {
+                // console.log(error)
+                divinfo.innerHTML = `<h3>${error.message}</h3>`;
+            } finally {
+                //console.log('finally');
+                imgLoader.style.display = "none"
+                btnStart.removeAttribute('disabled');
+            }
+        })
+    </script>
+}

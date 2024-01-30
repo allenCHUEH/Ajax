@@ -1,0 +1,46 @@
+﻿﻿
+@{
+    ViewData["Title"] = "JsonTest";
+}
+
+<h1>JsonTest</h1>
+<ul id="theUI">
+</ul>
+
+@section Scripts {
+    <script>
+        const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        { "name": "Jack", "workYears": 5, "salary": 40000 },
+        { "name": "Mary", "workYears": 7, "salary": 45000 }];
+
+        // for (let i = 0; i < emps.length;i++)
+        // {
+        //     console.log(emps[i].name)
+        // }
+
+        // emps.forEach(emp => {
+        //     console.log(emp.name)
+        // })
+
+        //讀取JSON資料
+
+        // emps.forEach(emp => {
+        //     const list = document.createElement("li"); //<li></li>
+        //     const txt = document.createTextNode(emp.name); //Mary
+        //     list.appendChild(txt);
+        //     theUI.appendChild(list);
+        // })
+        // 精簡化
+        // const list = emps.map(emp=>{
+        //     return(
+        //         `<li>${emp.name},${emp.workYears},${emp.salary}</li>`
+        //     )
+        // });
+        // theUI.innerHTML = list.join("");
+        // 再精簡化
+        const list = emps.map(emp=>`<li>${emp.name},${emp.workYears},${emp.salary}</li>`);    
+        theUI.innerHTML = list.join("");
+        //顯示在網頁上
+
+    </script>
+}
