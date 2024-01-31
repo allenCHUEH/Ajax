@@ -47,6 +47,10 @@ namespace WebApplication1.Controllers
             //return Content($"Hello{name}.You are {age}years old.!!");
             return Content($"Hello {name}, {age}歲了", "text/plain", Encoding.UTF8);
         }
-
+        public IActionResult District(string city)
+        {
+            var districts = _context.Addresses.Where(a => a.City == city).Select(a => a.SiteId).Distinct();
+            return Json(districts);
+        }
     }
 }

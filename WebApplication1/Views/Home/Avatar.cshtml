@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Avatar";
+}
+<h3>Avatar</h3>
+<img id="phote" class="img-thumbnail w-25" />
+@section Scripts {
+    <script>
+        const img = document.querySelector('#phote');
+        ( async() => {
+          
+            const url = '@Url.Content("~/msit/Avatar")?id=2';
+            const response = await fetch(url);
+            const data = await response.blob();
+            img.src = URL.createObjectURL(data);
+        }) ();
+    </script>
+}

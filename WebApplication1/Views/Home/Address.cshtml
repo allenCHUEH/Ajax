@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Address";
+}
+<h1>Address</h1>
+<select id="selectCity">
+    <option value="1">Item1</option>
+    <option value="1">Item2</option>
+    <option value="1">Item3</option>
+</select>
+<select id="selectRoad">
+    <option value="1">Item1</option>
+    <option value="1">Item2</option>
+    <option value="1">Item3</option>
+</select>
+
+@section Scripts {
+    <script>
+        //這邊就是javajscripts格式，記得加上;，跟url使用roar方法的話記得~後面加上/
+        const cities = document.querySelector('#selectCity');
+        const roads = document.querySelector('#selectRoad');
+        (async () => {
+            const url = '@Url.Content("~/msit/Cities")';
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const option = data.map(city => `<option value = ${city}>${city}</option>`);
+            cities.innerHTML = option.join("");
+
+
+            citysite();
+        })();
+        
+
+        const citysite = async () => {
+            const city = cities.options[cities.selectedIndex].value;
+
+            const url = `@Url.Content("~/msit/District")?city=${city}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const option = data.map(road => `<option value = ${road}>${road}</option>`);
+            roads.innerHTML = option.join("");
+        }
+        cities.addEventListener('change', citysite);
+    </script>
+}

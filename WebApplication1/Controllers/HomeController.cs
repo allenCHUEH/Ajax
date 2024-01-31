@@ -36,5 +36,13 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
+        public IActionResult Address()
+        {
+            return View();
+        }
+        public IActionResult Avatar()
+        {
+            return View();
+        }
     }
 }
