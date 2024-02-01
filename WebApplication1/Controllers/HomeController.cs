@@ -44,5 +44,13 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
+        public IActionResult Sport()
+        {
+            return View();
+        }
+        public IActionResult AutoComplete()
+        {
+            return View();
+        }
     }
 }

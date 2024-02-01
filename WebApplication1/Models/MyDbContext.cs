@@ -23,6 +23,8 @@ public partial class MyDBContext : DbContext
 
     public virtual DbSet<SpotImage> SpotImages { get; set; }
 
+    public virtual DbSet<SpotImagesSpot> SpotImagesSpots { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
@@ -70,6 +72,19 @@ public partial class MyDBContext : DbContext
         modelBuilder.Entity<SpotImage>(entity =>
         {
             entity.HasKey(e => e.ImageId);
+        });
+
+        modelBuilder.Entity<SpotImagesSpot>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("SpotImagesSpot");
+
+            entity.Property(e => e.Address).HasMaxLength(200);
+            entity.Property(e => e.DateCreated).HasColumnType("datetime");
+            entity.Property(e => e.Latitude).HasMaxLength(20);
+            entity.Property(e => e.Longitude).HasMaxLength(20);
+            entity.Property(e => e.SpotTitle).HasMaxLength(50);
         });
 
         OnModelCreatingPartial(modelBuilder);

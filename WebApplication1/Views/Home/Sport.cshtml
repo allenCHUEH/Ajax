@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Spot";
+}
+
+<h1>Spots</h1>
+<nav aria-label="Page navigation example">
+    <ul class="pagination" id="pageindex">
+    </ul>
+</nav>
+<div class="row row-cols-1 row-cols-md-3 g-4" id="div1">
+</div>
+@section Scripts {
+    <script>
+        const div1 = document.querySelector('#div1');
+        const ulPaging = document.querySelector('#pageindex');
+        const searchData = {
+            "categoryId": 0,
+            "keyword": "",
+            "page": 1,
+            "pageSize": 6,
+            "sortType": "asc",
+            "sortBy": ""
+        };
+
+        const loadSpots = async () => {
+            const response = await fetch('@Url.Content("~/msit/Sport")', {
+                "method": "POST",
+                "body": JSON.stringify(searchData),
+                "headers": { "Content-Type": "application/json" }
+            });
+            const datas = await response.json();
+            // console.log(datas.totalPages);
+
+
+            const divSpots = datas.spotsResult.map(spot => {
+                const { spotId, spotTitle, spotImage, address, spotDescription } = spot;
+                return (`
+                <div class="col">
+                        <div class="card h-100">
+                                <img src="${spotImage}" class="card-img-top" alt="${spotTitle}">
+                                <div class="card-body">
+                                        <h5 class="card-title">${spotId}-${spotTitle}</h5>
+                                        <p class="card-text">${spotDescription.length <= 100 ? spotDescription : spotDescription.substring(0, 100)}</p>
+                                </div>
+                                <div class="card-footer">
+                                        <small class="text-body-secondary">${address}</small>
+                                </div>
+                        </div>
+                </div>
+                        `)
+            })
+            div1.innerHTML = divSpots.join("");
+
+            //分頁
+            //創一個值存頁數
+            let liPages = "";
+            //根據totalpage將頁數依序列出存
+            // console.log(datas.totalPages);
+            for (let i = 1, max = datas.totalPages; i <= max; i++) {
+                liPages += ` <li class="page-item" onclick="pagingHandler(${i})"><a class="page-link" href="#">${i}</a></li>`
+               
+            }
+            console.log(liPages);
+            ulPaging.innerHTML = liPages;
+        };
+        const pagingHandler = page => {
+            searchData.page = page;
+            loadSpots();
+        }
+
+        loadSpots();
+    </script>
+}

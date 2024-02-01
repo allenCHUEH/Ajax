@@ -19,6 +19,10 @@
             <div class="mb-3">
                 <label for="userAge" class="form-label">年紀：</label>
                 <input type="number" class="form-control" id="userAge" name="Age">
+            </div>      
+            <div class="mb-3">
+                <label class="form-label" for="inputGroupFile01">頭像：</label>
+                <input type="file" class="form-control" id="inputGroupFile01" name="photo">
             </div>
 
             <button id="button1" type="submit" class="btn btn-primary">送出</button>
@@ -30,22 +34,37 @@
 </div>
 @section Scripts {
     <script>
-        const txtname = document.querySelector('#userName');
-        const txtmail = document.querySelector('#UserEmail');
-        const txtage = document.querySelector('#userAge');
+        // const txtname = document.querySelector('#userName');
+        // const txtmail = document.querySelector('#UserEmail');
+        // const txtage = document.querySelector('#userAge');
         const txtwarm = document.querySelector('#div1');
 
         //因為submit預設post，所以要停止預設行為
         const btnSubmit = document.querySelector('#button1');
-        btnSubmit.addEventListener('click', async(event) => {
+        btnSubmit.addEventListener('click', async (event) => {
             event.preventDefault();//停止預設行為
 
-
-            const url = `@Url.Content("~/msit/register")?name=${txtname.value}&age=${txtage.value}&email=${txtmail.value}`;
-            const response = await fetch(url);
+            const formData = new FormData(document.querySelector('#userForm'));
+            // formData.append("key", "123");
+            // for (const pair of formData.entries()) {
+            //     console.log(pair[0]);
+            //     console.log(pair[1]);
+            // }
+            const url = '@Url.Content("~/msit/register")';
+            const response = await fetch(url, {
+                "method": "POST",
+                "body": formData
+            });
             const data = await response.text();
-            console.log(data);
             txtwarm.innerHTML = data;
+
+
+
+            // const url = `@Url.Content("~/msit/register")?name=${txtname.value}&age=${txtage.value}&email=${txtmail.value}`;
+            // const response = await fetch(url);
+            // const data = await response.text();
+            // console.log(data);
+            // txtwarm.innerHTML = data;
 
         })
     </script>
